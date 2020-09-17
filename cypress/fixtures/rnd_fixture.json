@@ -1,0 +1,4 @@
+{
+    "main_url": "http://automationpractice.com/index.php",
+    "create_account": "http://automationpractice.com/index.php?controller=authentication#account-creation"
+}

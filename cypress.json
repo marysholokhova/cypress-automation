@@ -1,0 +1,12 @@
+{
+    "env": {
+        "allureResultsPath": "allure_reports/results"
+    },
+    "retries": {
+        "runMode": 1,
+        "openMode": 1
+    },
+    "chromeWebSecurity": true,
+    "defaultCommandTimeout": 10000,
+    "experimentalSourceRewriting": true
+}

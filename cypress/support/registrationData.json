@@ -1,0 +1,38 @@
+{
+    "accounts": [
+        {
+            "Female Las Vegas": {
+                "gender": "Female",
+                "firstname": "Ann",
+                "lastname": "Robertson",
+                "password": "randtest1245",
+                "dayOfBIrth": "1",
+                "monthOfBIrth": "1",
+                "yearOfBIrth": "1980",
+                "addressOne": "New street 1",
+                "city": "Las Vegas",
+                "postcode": "12345",
+                "country": "United States",
+                "state": "Nevada",
+                "mobilePhone": "123456789"
+            }
+        },
+        {
+            "Male San Diego": {
+                "gender": "Male",
+                "firstname": "John",
+                "lastname": "Doe",
+                "password": "randtest1245",
+                "dayOfBIrth": "1",
+                "monthOfBIrth": "1",
+                "yearOfBIrth": "1980",
+                "addressOne": "New street 1",
+                "city": "San Diego",
+                "postcode": "12345",
+                "country": "United States",
+                "state": "California",
+                "mobilePhone": "123456789"
+            }
+        }
+    ]
+}
