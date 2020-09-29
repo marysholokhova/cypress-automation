@@ -1,0 +1,14 @@
+{
+    "products": [
+        {
+            "Dress": {
+                "gender": "Female"
+            }
+        },
+        {
+            "Blouse": {
+                "gender": "Male"
+            }
+        }
+    ]
+}

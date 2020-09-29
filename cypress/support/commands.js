@@ -34,7 +34,6 @@ Cypress.Commands.add('createAccount', (email) => {
     createAccountForm.fillEmailField(email)
     cy.screenshot('#email_create', {padding: 2});
     createAccountForm.submit();
-    cy.url().should('include', 'account-creation');
 })
 
 //Log in to user account

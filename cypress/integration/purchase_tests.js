@@ -1,28 +1,31 @@
-describe("Test the search functionality", () => {
-  before(() => {
+import testData from '../support/purchaseData.json';
+import SearchPanel from '../support/PageObjects/SearchPanel'
+const productsData = testData['products'];
+
+describe("Purchase Tests", () => {
+  beforeEach(() => {
     cy.fixture("rnd_fixture").then(
       data => {
         cy.visit(data.main_url);
       });
   });
 
-  it('Check for product details and price', () => {
-      cy.contains('Faded Short Sleeve T-shirts')
-      cy.contains('Model')
-      cy.contains('demo_1')
-      cy.contains('Condition')
-      cy.contains('New')
-      cy.contains("Faded short sleeve t-shirt with high neckline. Soft and stretchy material for a comfortable fit. Accessorize with a straw hat and you're ready for summer!")
-      cy.contains('$16.51');
-      cy.contains('Quantity');
-
-      cy.get('input#quantity_wanted').as('qty');
-      cy.get('@qty').should('have.value', '1');
-
-      cy.get('a.button-plus').click();
-      cy.get('@qty').should('have.value', '2');
-
-      cy.get('a.button-minus').click();
-      cy.get('@qty').should('have.value', '1');
+  describe('Buy a product', () => {
+    productsData.forEach(product => {
+      var searchPanel = new SearchPanel();
+      Object.entries(product).forEach(([key, parameters]) => {
+        it(`Purchase ${key}`, () => {
+          searchPanel.searchItem(key);
+          cy.url().should('include', `search_query=${key}`);
+          cy.get('.lighter').invoke('text').should('include', key);
+          let product_title = cy.get('.product-container:first-of-type .product-name').invoke('text');
+          cy.get('ul.product_list.grid > li .product-container .ajax_add_to_cart_button:first-of-type').click();
+          cy.get('.layer_cart_product > h2').should('include', "Product successfully added to your shopping cart");
+          cy.get('.button-container > .button-medium > span').click();
+          cy.get('#cart_title');
+          cy.get('.cart_description > .product-name').should('include', product_title);
+        });
+      });
+    });
   });
 });

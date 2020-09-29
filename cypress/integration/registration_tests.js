@@ -1,26 +1,29 @@
-const testData = require('../support/registrationData.json');
+import dataUtils from '../support/utils/DataUtils';
+import testData from '../support/registrationData.json';
+import TopMenu from '../support/PageObjects/TopMenu'
 const accountsData = testData['accounts'];
 
-describe('Automation Practice Test', function() {
-  before(() => {          
+describe('Account Tests', function() {
+  beforeEach(() => {          
     cy.viewport(1200, 1500);
     cy.fixture("rnd_fixture").then(
       data => {
         cy.visit(data.create_account)
       });
-})
+  });
 
   describe('Create new account', () => {
     accountsData.forEach(account => {
+      var topMenu = new TopMenu();
       Object.entries(account).forEach(([key, parameters]) => {
-        it('Registrate a new account as ${key}', ()=>{
-          cy.createAccount('rnd_test11@qa_test.com');
+        it(`Registrate a new account as ${key}`, ()=>{
+          cy.createAccount(dataUtils.generateSignInId());
           cy.fillRegistrationPage(parameters);
-          
-          cy.get('.logout').should('be.visible');
-          cy.get('.account').should('be.visible');
+          cy.url().should('include', 'my-account');          
+          topMenu.logoutButton().should('be.visible');
+          topMenu.accountTab().should('be.visible');
         });
       });
     });
   });
-})
+});

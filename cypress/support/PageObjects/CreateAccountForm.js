@@ -1,7 +1,7 @@
 class CreateAccountForm{
     
     fillEmailField(email){
-        cy.get('#email_create').type(email);
+        cy.get('#email_create').clear().type(email);
     }
     
     submit(){
