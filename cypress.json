@@ -1,12 +1,20 @@
 {
     "env": {
-        "allureResultsPath": "allure_reports/results"
+        "allureResultsPath": "cypress/reports/allure"
     },
     "retries": {
         "runMode": 1,
-        "openMode": 1
+        "openMode": 0
     },
     "chromeWebSecurity": true,
     "defaultCommandTimeout": 10000,
-    "experimentalSourceRewriting": true
+    "experimentalSourceRewriting": true,
+    "reporter": "mochawesome",
+    "reporterOptions": {
+        "reportDir": "cypress/reports/mochawesome",
+        "overwrite": false,
+        "html": true,
+        "json": false,
+        "timestamp": "mmddyyyy_HHMMss"
+    }      
 }

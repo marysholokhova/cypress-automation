@@ -1,9 +1,7 @@
 # Dependency directories
 node_modules/
 
-# Reports
-allure_reports
-
 # Run artifacts
 cypress/screenshots
 cypress/videos
+cypress/reports
