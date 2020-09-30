@@ -24,13 +24,14 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 import CreateAccountForm from './PageObjects/CreateAccountForm'
+import LoginForm from './PageObjects/LoginForm'
 import RegistrationPage from './PageObjects/RegistrationPage' 
 
 
 //Log in to user account
 Cypress.Commands.add('createAccount', (email) => {
     //generate random sign in id
-    var createAccountForm = new CreateAccountForm();
+    let createAccountForm = new CreateAccountForm();
     createAccountForm.fillEmailField(email)
     cy.screenshot('#email_create', {padding: 2});
     createAccountForm.submit();
@@ -38,21 +39,26 @@ Cypress.Commands.add('createAccount', (email) => {
 
 //Log in to user account
 Cypress.Commands.add('fillRegistrationPage', (parameters) => {
-    var registrationPage = new RegistrationPage();
-    registrationPage.selectGender(parameters['gender']);
-    registrationPage.inputFirstname(parameters['firstname']);
-    registrationPage.inputLastname(parameters['lastname']);
-    registrationPage.inputPassword(parameters['password']);
+    let registrationPage = new RegistrationPage();
+    registrationPage.selectGender(parameters.gender);
+    registrationPage.inputFirstname(parameters.firstname);
+    registrationPage.inputLastname(parameters.lastname);
+    registrationPage.inputPassword(parameters.password);
     cy.screenshot( {blackout: ['#passwd']});
-    registrationPage.selectDayOfBIrth(parameters['dayOfBIrth']);
-    registrationPage.selectMonthOfBIrth(parameters['monthOfBIrth']);
-    registrationPage.selectYearOfBIrth(parameters['yearOfBIrth']);
-    registrationPage.inputAddressOne(parameters['addressOne']);
-    registrationPage.inputCity(parameters['city']);
-    registrationPage.inputPostcode(parameters['postcode']);
-    registrationPage.selectCountry(parameters['country']);//replace with letters
-    registrationPage.selectState(parameters['state']);
-    registrationPage.inputMobilePhone(parameters['mobilePhone']);
+    registrationPage.selectDayOfBIrth(parameters.dayOfBIrth);
+    registrationPage.selectMonthOfBIrth(parameters.monthOfBIrth);
+    registrationPage.selectYearOfBIrth(parameters.yearOfBIrth);
+    registrationPage.inputAddressOne(parameters.addressOne);
+    registrationPage.inputCity(parameters.city);
+    registrationPage.inputPostcode(parameters.postcode);
+    registrationPage.selectCountry(parameters.country);
+    registrationPage.selectState(parameters.state);
+    registrationPage.inputMobilePhone(parameters.mobilePhone);
     cy.screenshot("fill_registration_page", ['#passwd']);
     registrationPage.submitRegistation();
-})
+});
+
+Cypress.Commands.add('login', (email, password) => {
+    let loginForm = new LoginForm();
+    loginForm.login(email, password);
+});

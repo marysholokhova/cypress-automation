@@ -1,5 +1,10 @@
 import testData from '../support/purchaseData.json';
+import CartPage from '../support/PageObjects/CartPage'
 import SearchPanel from '../support/PageObjects/SearchPanel'
+import SearchResults from '../support/PageObjects/SearchResults'
+import Address from '../support/PageObjects/Address';
+import Payment from '../support/PageObjects/Payment';
+import Shipping from '../support/PageObjects/Shipping';
 const productsData = testData['products'];
 
 describe("Purchase Tests", () => {
@@ -11,21 +16,31 @@ describe("Purchase Tests", () => {
   });
 
   describe('Buy a product', () => {
-    productsData.forEach(product => {
-      var searchPanel = new SearchPanel();
-      Object.entries(product).forEach(([key, parameters]) => {
-        it(`Purchase ${key}`, () => {
-          searchPanel.searchItem(key);
-          cy.url().should('include', `search_query=${key}`);
-          cy.get('.lighter').invoke('text').should('include', key);
-          let product_title = cy.get('.product-container:first-of-type .product-name').invoke('text');
-          cy.get('ul.product_list.grid > li .product-container .ajax_add_to_cart_button:first-of-type').click();
-          cy.get('.layer_cart_product > h2').should('include', "Product successfully added to your shopping cart");
-          cy.get('.button-container > .button-medium > span').click();
-          cy.get('#cart_title');
-          cy.get('.cart_description > .product-name').should('include', product_title);
+    let address = new Address();
+    let cart = new CartPage();
+    let payment = new Payment();
+    let searchPanel = new SearchPanel();
+    let searchResults = new SearchResults();
+    let shipping = new Shipping();
+    productsData.forEach(productName => {
+        it(`Purchase ${productName}`, () => {
+          searchPanel.searchItem(productName);
+          searchResults.verifyResults(productName);
+          let productTitle = searchResults.getFirstResultTitle().toString();
+          searchResults.addProductToCart(productTitle);
+          cart.verifyProductInCart(productName);
+          cart.proceedToCheckout();
+          cy.login("rnd_test11@qa_test.com", "randtest1245");
+          address.checkUseAdressAsBilling();
+          cart.proceedToCheckout();
+          shipping.agreeToC();
+          cart.proceedToCheckout();
+          payment.selectPayByCard();
+          cy.get('.page-heading').invoke('text').should('contain', "Order summary");
+          cart.proceedToCheckout();
+          cy.get('.page-heading').invoke('text').should('contain', "Order confirmation");
+          cy.get('.cheque-indent').invoke('text').should('contain', "Your order on My Store is complete");
         });
       });
-    });
   });
 });
